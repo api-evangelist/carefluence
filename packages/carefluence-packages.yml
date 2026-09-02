@@ -1,0 +1,106 @@
+generated: '2026-09-02'
+method: searched
+source: >-
+  NuGet search + registration metadata
+  (https://azuresearch-usnc.nuget.org/query?q=carefluence,
+  https://api.nuget.org/v3/registration5-semver1/<id>/index.json), fetched
+  2026-09-02. npm, PyPI, RubyGems, crates.io, Maven Central, pkg.go.dev and
+  Packagist searched for "carefluence" with zero results.
+name: Carefluence client packages
+description: >-
+  Carefluence ships .NET client libraries on NuGet under the owner account
+  carefluence-team. They are genuinely first-party, and they are stale: the
+  newest release across all three packages predates the R4 API's June 2022 ONC
+  certification by more than three years.
+registries_searched:
+- registry: nuget
+  query: carefluence
+  hits: 3
+- registry: npm
+  query: carefluence
+  hits: 0
+- registry: pypi
+  query: carefluence
+  hits: 0
+  note: 'https://pypi.org/pypi/carefluence/json returned 404.'
+- registry: rubygems
+  query: carefluence
+  hits: 0
+- registry: crates.io
+  query: carefluence
+  hits: 0
+- registry: maven-central
+  query: carefluence
+  hits: 0
+- registry: pkg.go.dev
+  query: carefluence
+  hits: 0
+- registry: packagist
+  query: carefluence
+  hits: 0
+- registry: github
+  query: 'https://github.com/carefluence'
+  hits: 0
+  note: 'HTTP 404 — Carefluence publishes no GitHub organization.'
+packages:
+- name: Carefluence
+  registry: nuget
+  url: https://www.nuget.org/packages/Carefluence
+  official: true
+  official_evidence: >-
+    NuGet owner carefluence-team, authors "Carefluence", projectUrl
+    http://www.carefluence.com on the 1.0/1.1/1.4 releases.
+  language: dotnet
+  version: 1.7.0
+  published: '2019-02-21'
+  latest_listed: true
+  total_downloads: 19861
+  description: >-
+    "Carefluence OpenAPI Client library has methods connect to the OpenAPI
+    Server and query patient data from EHRs" (publisher's own description on
+    release 1.1.0; later releases ship the placeholder string "Description").
+  note: >-
+    Ten published versions, only 1.7.0 listed. Last release 2019-02-21 — three
+    years before the R4 product it nominally wraps was certified, and seven
+    years before this profile was taken.
+- name: Carefluence.CDSHooks
+  registry: nuget
+  url: https://www.nuget.org/packages/Carefluence.CDSHooks
+  official: true
+  official_evidence: NuGet owner carefluence-team.
+  language: dotnet
+  version: 1.0.0.7
+  published: '2019-03-04'
+  latest_listed: true
+  total_downloads: 19093
+  description: Carefluence .NET SDK for Token management methods.
+  note: >-
+    Fifteen published versions; 1.0.0.7 is the only listed one, and the version
+    ordering is non-monotonic (1.0.8 exists but is unlisted and predates it in
+    the listed set). Named for CDS Hooks but described as token management.
+- name: Carefluence.Adapter.13.0
+  registry: nuget
+  url: https://www.nuget.org/packages/Carefluence.Adapter.13.0
+  official: true
+  official_evidence: NuGet owner carefluence-team, authors "Carefluence".
+  language: dotnet
+  version: 13.0.0
+  published: '2017-06-21'
+  latest_listed: true
+  total_downloads: 1801
+  description: >-
+    No description published (placeholder string "Description"). The name
+    matches the "Adapters for non-FHIR server Connectivity" product line.
+  note: Single release, 2017-06-21. Oldest and least-downloaded of the three.
+findings:
+- >-
+  All three first-party packages are .NET-only. There is no JavaScript, Python,
+  Java or Go client for a FHIR API whose buyers are health-IT developers.
+- >-
+  Newest first-party release is 2019-03-04. The certified R4 API dates from
+  2022-06-29 and the MCP server product was announced later still; no package
+  has been touched since. This is the strongest provider-published decay signal
+  on the Carefluence surface.
+- >-
+  None of the three packages publishes a repository URL, licence URL or release
+  notes, so a consumer cannot see what changed or read the source.

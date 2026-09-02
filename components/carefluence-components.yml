@@ -1,0 +1,97 @@
+generated: '2026-09-02'
+method: searched
+source: >-
+  https://api.carefluence.com/ ("OpenAPI R4 Platform Components" section of the
+  published collection), https://carefluence.com/products/ and the individual
+  product pages under https://carefluence.com/products/
+name: Carefluence platform components
+description: >-
+  Carefluence does not ship a JavaScript element library or a hosted embeddable
+  widget with a loader script. What it publishes under the heading "components"
+  is a deployable platform: server-side modules plus one embeddable viewer
+  plugin and one interface-engine plugin. Recorded here because the embeddable
+  viewer is a genuine client-side surface; the rest is documented as
+  infrastructure so the distinction is on the record.
+distribution: licensed platform components, not a public CDN or npm loader
+loader_libraries: []
+families:
+- name: Embeddable UI
+  components:
+  - id: embeddable-viewer-plugin
+    name: Embeddable Viewer Plugin
+    type: embeddable-ui
+    published_description: >-
+      "A default embeddable patient data viewer is provided and can be
+      customized using CSS and XSLT."
+    customization: [CSS, XSLT]
+    loader: not published
+    source: https://api.carefluence.com/
+- name: Integration plugins
+  components:
+  - id: hl7-interface-engine-plugin
+    name: HL7 Interface Engine Plugin
+    type: server-plugin
+    published_description: 'Add-on modules to use with Mirth Connect as the HL7 interface engine.'
+    host_product: Mirth Connect
+    source: https://api.carefluence.com/
+  - id: ehr-adapters
+    name: Adapters for non-FHIR server connectivity
+    type: server-plugin
+    published_description: >-
+      "Carefluence develop and maintain HL7 standards based adapters to connect
+      with EHRs and normalize to FHIR R4 standards."
+    url: https://carefluence.com/products/adapters-for-non-fhir-server-connectivity/
+- name: Server modules
+  note: Infrastructure, listed for completeness — not client-side components.
+  components:
+  - id: authorization-service
+    name: Authorization Service
+    published_description: 'Web-based SMART authorization and resource retrieval service developed on OAuth 2.0.'
+    live_surface: https://core.carefluence.com/cf.admin.core
+  - id: smart-connect
+    name: SMART Connect
+    published_description: 'Multi-factor Authentication & Application Single-Sign on and Security Options.'
+    url: https://carefluence.com/products/infrastructure-for-smart-on-fhir-applications/
+  - id: restful-resource-api
+    name: RESTful Resource API
+    published_description: 'Healthcare data hosted as FHIR resources, searchable, with create/update/delete per FHIR R4.'
+    live_surface: https://classic.carefluence.com/r4/
+  - id: fhir-transformer
+    name: FHIR Transformer
+    published_description: 'Server-side component that converts CCDA or HL7 V2 messages into FHIR resources.'
+    url: https://carefluence.com/products/data-translator-for-data-normalization/
+  - id: integration-engine
+    name: Built-in Integration Engine
+    url: https://carefluence.com/products/built-in-integration-engine/
+  - id: fhirone
+    name: FHIRone Platform
+    url: https://carefluence.com/products/fhirone-platform/
+  - id: fhirops
+    name: Carefluence FHIRops
+    published_description: >-
+      Asynchronous interoperability hub with a FHIR messaging framework
+      bridging v2/CCDA and FHIR; the provider states it "leverages AsyncAPI for
+      event-driven integrations".
+    url: https://carefluence.com/products/fhirops/
+    note: >-
+      No AsyncAPI document is published anywhere on the Carefluence surface —
+      probed https://carefluence.com/asyncapi.yaml (404) and
+      https://classic.carefluence.com/r4/asyncapi.json (404). The AsyncAPI claim
+      is product prose only.
+  - id: openapi-database
+    name: OpenAPI Database
+    published_description: 'Database-agnostic storage tested with MS SQL Server; Oracle, MySQL or PostgreSQL optional.'
+  - id: authorization-database
+    name: Authorization Database
+    published_description: 'MS SQL Server store for OAuth tokens and client application registrations.'
+hosting:
+  published_description: >-
+    "Carefluence OpenAPI R4 is hosted in Microsoft Azure as App Services
+    natively for our Development purposes. For our customers, the Azure
+    reference implementation will be licensed to subscribe in their own Azure
+    Account or lease ours."
+  observed: >-
+    fhir.carefluence.com resolves to
+    carefluence-03-svc-aspnet4-8.azurewebsites.net (Azure App Service, East US),
+    which corroborates the published hosting model.
+  source: https://api.carefluence.com/

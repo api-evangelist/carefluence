@@ -1,0 +1,218 @@
+generated: '2026-09-02'
+method: searched
+source: >-
+  https://classic.carefluence.com/r4/metadata (CapabilityStatement, HTTP 200),
+  https://classic.carefluence.com/r4/.well-known/smart-configuration (HTTP 200),
+  https://core.carefluence.com/cf.admin.core/.well-known/openid-configuration (HTTP 200),
+  https://carefluence.com/onc-certification/ (HTTP 200),
+  https://carefluence.com/real-world-testing-plan-2025/ (HTTP 200),
+  https://api.carefluence.com/ (published Postman collection)
+name: Carefluence standards conformance
+description: >-
+  Carefluence sells conformance: its whole product is an ONC-certified
+  standardized API for health IT. Every claim below is checked against the
+  contract the server actually serves, not against the marketing page.
+standards:
+- id: fhir-r4
+  name: HL7 FHIR R4 (4.0.1)
+  conforms: true
+  evidence:
+    where: fhir/carefluence-openapi-r4-capabilitystatement.json
+    detail: >-
+      CapabilityStatement.fhirVersion = "4.0.1"; format =
+      ["application/fhir+json","application/fhir+xml"]; rest[0].mode = "server"
+      with 24 resource types.
+    url: https://classic.carefluence.com/r4/metadata
+- id: us-core-3.1.1
+  name: HL7 US Core Implementation Guide v3.1.1
+  conforms: true
+  evidence:
+    where: fhir/carefluence-openapi-r4-capabilitystatement.json
+    detail: >-
+      implementation.description = "Carefluence FHIR Server for US Core
+      Implementation Guide v3.1.1". 19 of the 24 resource types carry
+      supportedProfile URLs under
+      http://hl7.org/fhir/us/core/StructureDefinition/, including
+      us-core-patient, us-core-condition, us-core-medicationrequest,
+      us-core-implantable-device, us-core-provenance, us-core-smokingstatus,
+      pediatric-bmi-for-age, pediatric-weight-for-height,
+      us-core-pulse-oximetry and head-occipital-frontal-circumference-percentile.
+    url: https://classic.carefluence.com/r4/metadata
+- id: smart-app-launch
+  name: SMART App Launch (SMART on FHIR)
+  conforms: true
+  evidence:
+    where: well-known/carefluence-smart-configuration.json
+    detail: >-
+      /.well-known/smart-configuration returns 13 capabilities: launch-ehr,
+      launch-standalone, client-public, client-confidential-symmetric,
+      sso-openid-connect, context-banner, context-style, context-ehr-patient,
+      context-standalone-patient, context-standalone-encounter,
+      permission-offline, permission-patient, permission-user. The
+      CapabilityStatement security block carries the SMART oauth-uris
+      extension (http://fhir-registry.smarthealthit.org/StructureDefinition/oauth-uris)
+      and codes the service as SMART-on-FHIR against
+      http://terminology.hl7.org/CodeSystem/restful-security-service.
+    url: https://classic.carefluence.com/r4/.well-known/smart-configuration
+- id: oauth2
+  name: OAuth 2.0 (RFC 6749) with PKCE (RFC 7636)
+  conforms: true
+  evidence:
+    where: well-known/carefluence-openid-configuration.json
+    detail: >-
+      authorization/token/introspection/revocation/device-authorization
+      endpoints published; code_challenge_methods_supported = [plain, S256].
+    url: https://core.carefluence.com/cf.admin.core/.well-known/openid-configuration
+- id: oidc
+  name: OpenID Connect Discovery 1.0
+  conforms: true
+  evidence:
+    where: well-known/carefluence-openid-configuration.json
+    detail: >-
+      issuer, jwks_uri, userinfo_endpoint, 20 claims_supported, RS256 id_token
+      signing, front-channel and back-channel logout advertised. JWKS served at
+      /cf.admin.core/.well-known/openid-configuration/jwks.
+    url: https://core.carefluence.com/cf.admin.core/.well-known/openid-configuration/jwks
+- id: fhir-bulk-data
+  name: HL7 FHIR Bulk Data Access (Flat FHIR) IG
+  conforms: partial
+  evidence:
+    where: fhir/carefluence-openapi-r4-capabilitystatement.json
+    detail: >-
+      CapabilityStatement.instantiates includes
+      http://hl7.org/fhir/uv/bulkdata/CapabilityStatement/bulk-data, and the
+      Group resource declares the group-export operation
+      (http://hl7.org/fhir/uv/bulkdata/OperationDefinition/group-export) with a
+      capabilitystatement-expectation of SHOULD. No system-level $export or
+      Patient/$export is declared, and no backend-services JWT registration
+      surface is published, so this is an advertised rather than a demonstrated
+      conformance.
+    url: https://classic.carefluence.com/r4/metadata
+- id: rfc9457
+  name: RFC 9457 Problem Details for HTTP APIs
+  conforms: false
+  evidence:
+    detail: >-
+      The API returns FHIR OperationOutcome (application/fhir+json) as its
+      error envelope, not application/problem+json. This is the correct
+      domain-native choice for a FHIR server; it is recorded here as a fact,
+      not a defect.
+    where: errors/carefluence-problem-types.yml
+- id: pagination
+  name: FHIR Bundle link-based paging
+  conforms: true
+  evidence:
+    detail: >-
+      Saved example responses in the published Postman collection carry
+      Bundle.link entries of the form
+      https://classic.carefluence.com/r4/Patient?...&searchId=&page=1&_count=20&startIndex=0&_total=1,
+      i.e. cursor-style paging expressed through FHIR Bundle links plus _count.
+    where: postman/carefluence-openapi-r4-collection.json
+- id: idempotency
+  name: Idempotency keys
+  conforms: false
+  evidence:
+    detail: >-
+      No Idempotency-Key (or equivalent) header is documented anywhere in the
+      collection or the CapabilityStatement. The server does declare
+      conditionalUpdate = true and conditionalCreate = false on its writeable
+      resources, which is FHIR's own conditional-write mechanism, but that is
+      not an idempotency-key contract and is not documented for developers.
+    where: conventions/carefluence-conventions.yml
+domain_standards:
+- id: onc-hti-170.315-g10
+  name: ONC/ASTP Certification § 170.315(g)(10) — Standardized API for Patient and Population Services
+  conforms: true
+  regime: healthcare
+  evidence:
+    detail: >-
+      Certified 2022-06-29 under CHPL ID 15.04.04.2657.Care.R4.01.0.220629 for
+      170.315 (d)(1,3,9-10,12-13) and (g)(4-7,9-10). No CQMs required; no
+      reliance on additional software declared. The certified product is the
+      contract this repo harvested: the CapabilityStatement's US Core profiles
+      and the authorization server's SMART scopes are the (g)(10) surface.
+    urls:
+    - https://carefluence.com/onc-certification/
+    - https://chpl.healthit.gov/#/listing/10922
+- id: uscdi-v1
+  name: USCDI v1
+  conforms: true
+  regime: healthcare
+  evidence:
+    detail: >-
+      The Real World Testing plan for CY2025 states "Standard (and version):
+      FHIR R4 and USCDI 1.0". The published Postman collection maps each FHIR
+      resource folder to its USCDI data elements (e.g. Patient →
+      Patient.name.given / us-core-race / us-core-ethnicity, Device → UDI
+      elements, Observation → smoking status, vital signs and lab result
+      profiles).
+    urls:
+    - https://carefluence.com/real-world-testing-plan-2025/
+    - https://api.carefluence.com/
+- id: onc-real-world-testing
+  name: ONC Real World Testing (annual plan + results)
+  conforms: true
+  regime: healthcare
+  evidence:
+    detail: >-
+      Plans and results published annually for 2022, 2023, 2024 and a 2025 plan
+      attested 2025-10-28 by Aditya Ayyagari (Plan Report ID CF_RWT_2025).
+    urls:
+    - https://carefluence.com/real-world-testing-plan-2025/
+    - https://carefluence.com/real-world-testing-plan-2024/
+    - https://carefluence.com/real-world-testing-plan-2023/
+    - https://carefluence.com/real-world-testing-plan/
+- id: cds-hooks
+  name: CDS Hooks
+  conforms: partial
+  regime: healthcare
+  evidence:
+    detail: >-
+      Carefluence publishes a first-party NuGet package Carefluence.CDSHooks
+      (last release 1.0.0.7, 2019-03-04) and its milestone page claims "First
+      large specialty (oncology) EHR certified with Carefluence and CDS Hooks"
+      in September 2018. No CDS Hooks discovery endpoint (/cds-services) is
+      published on any Carefluence host.
+    urls:
+    - https://carefluence.com/our-excellence/
+    - https://www.nuget.org/packages/Carefluence.CDSHooks
+- id: hl7v2-ccda-x12
+  name: HL7 v2, C-CDA and EDI X12 ingestion
+  conforms: claimed
+  regime: healthcare
+  evidence:
+    detail: >-
+      The provider states its integration engine and FHIR Transformer accept
+      HL7 v2 messages and C-CDA documents and convert them to FHIR resources,
+      with backward compatibility for HL7 V2, CCDA and EDI X12. This is a
+      product claim on the provider's own pages; no message-level contract is
+      published, so it is recorded as claimed rather than verified.
+    urls:
+    - https://carefluence.com/our-excellence/
+    - https://api.carefluence.com/
+certifications:
+- name: ONC Health IT Certification (2015 Edition Cures Update)
+  id: 15.04.04.2657.Care.R4.01.0.220629
+  certified: '2022-06-29'
+  criteria: '170.315 (d)(1,3,9-10,12-13); (g)(4-7,9-10)'
+  body: ONC-ACB (Drummond Group, per CHPL 15.04.04 prefix)
+  listing: https://chpl.healthit.gov/#/listing/10922
+  url: https://carefluence.com/onc-certification/
+- name: 'First ONC 2015 Edition certification of a FHIR-based Open API (July 2016)'
+  url: https://carefluence.com/our-excellence/
+  note: Provider's own milestone claim; the currently listed certification is the 2022 R4 one above.
+compliance_claims:
+- name: HIPAA
+  status: claimed
+  detail: >-
+    Product pages state the OAuth 2.0/OpenID gateway, audit logs and user role
+    permissions "improve HIPAA compliance". No attestation, SOC 2 report or
+    trust center is published.
+  url: https://carefluence.com/products/oauth-2-0-and-openid-server/
+gaps:
+- No SOC 2, ISO 27001, HITRUST or FedRAMP evidence is published anywhere on the Carefluence surface.
+- No trust center and no /.well-known/security.txt on any host.
+- >-
+  CHPL machine-readable detail could not be fetched: https://chpl.healthit.gov/rest/listings/10922
+  returns HTTP 400 "API key must be presented in order to use this API". The
+  human listing page is the cited evidence instead.

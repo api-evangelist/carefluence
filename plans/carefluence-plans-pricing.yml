@@ -1,0 +1,57 @@
+generated: '2026-09-02'
+method: searched
+source: https://carefluence.com/onc-certification/ (HTTP 200, fetched 2026-09-02) — the "Cost Considerations" disclosure ONC requires of certified API developers
+name: Carefluence Open API pricing
+description: >-
+  Carefluence publishes no priced plans. It publishes the fee STRUCTURE it will
+  quote against, because ONC's API transparency Condition of Certification
+  requires a certified API developer to disclose all fees. Three commercial
+  models are named; not one carries a number, a quota, or a currency.
+plan_count: 0
+pricing_page: https://carefluence.com/onc-certification/
+public_pricing: false
+self_service_purchase: false
+sales_gate: true
+sales_gate_detail: 'The only commercial call to action on any page is "Book a Call" (https://calendly.com/carefluence_lloydwilliams).'
+commercial_models:
+- id: perpetual-license
+  name: One-time licence fee plus flat annual maintenance
+  price: null
+  currency: null
+  billing_period: annual maintenance after a one-time fee
+  quota: null
+  overage: null
+  published_text: 'a one-time license fee plus a flat annual maintenance fees'
+- id: saas-subscription
+  name: SaaS monthly subscription
+  price: null
+  currency: null
+  billing_period: monthly
+  quota: 'a defined number of users and transactions (defined per contract)'
+  overage: null
+  published_text: >-
+    a monthly subscription fee for a defined number of users and transactions
+    under a Software as a service (SaaS) model
+- id: transaction-based
+  name: Transaction-based service fee
+  price: null
+  currency: null
+  billing_period: per transaction
+  quota: null
+  overage: null
+  unit: 'per transaction/service, defined as an API call and/or query'
+  published_text: >-
+    a transaction-based service fee model (per transaction/service, defined as
+    an API call and/or query) as listed in the contract for API interface
+limitations_disclosure:
+  published_text: 'There are no known limitations beyond the requirements defined in the API client registration.'
+  source: https://carefluence.com/onc-certification/
+notes:
+- >-
+  The Pricing pointer in apis.yml resolves to the ONC certification page
+  because that is where Carefluence publishes its fee disclosure. There is no
+  /pricing page; https://carefluence.com/pricing/ is not served.
+- >-
+  A buyer cannot compute a cost from anything Carefluence publishes. The
+  disclosure satisfies the regulatory requirement to name the fee models and
+  stops short of naming any fee.

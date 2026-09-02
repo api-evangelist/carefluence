@@ -1,0 +1,40 @@
+generated: '2026-09-02'
+method: searched
+source: >-
+  Searched every published Carefluence developer surface for rate-limit
+  documentation: https://api.carefluence.com/ (the full Postman collection
+  including its Security & Authorization Flow and Errors & Exceptions
+  sections), https://carefluence.com/technical-documents/,
+  https://carefluence.com/onc-certification/,
+  https://carefluence.com/products/fhir-based-openapi-platform/, and the live
+  CapabilityStatement at https://classic.carefluence.com/r4/metadata.
+name: Carefluence Open API R4 rate limits
+description: >-
+  Carefluence publishes no rate limits. Nothing in the collection, the product
+  pages, the ONC disclosure or the CapabilityStatement names a quota, a window,
+  a burst allowance or a throttling response.
+limit_count: 0
+limits: []
+response_headers:
+  documented: []
+  note: >-
+    No X-RateLimit-*, RateLimit-* or Retry-After header is documented. None
+    could be observed either: every resource path requires a bearer token, so
+    there is no unauthenticated response on which to read live headers, and
+    this pipeline does not authenticate.
+status_on_exhaustion:
+  documented: null
+  note: >-
+    The published error table stops at 4xx "Authorization error" and does not
+    mention 429.
+commercial_signal:
+  note: >-
+    The ONC cost disclosure offers a "transaction-based service fee model (per
+    transaction/service, defined as an API call and/or query)" and a SaaS model
+    for "a defined number of users and transactions". Volume is therefore
+    metered and contractual, negotiated per customer rather than published.
+  source: https://carefluence.com/onc-certification/
+gaps:
+- >-
+  An agent integrating this API has no published backoff contract: no limit, no
+  window, no exhaustion status and no retry signal.

@@ -1,0 +1,120 @@
+generated: '2026-09-02'
+method: probed
+source: >-
+  https://core.carefluence.com/cf.admin.core/.well-known/openid-configuration
+  (HTTP 200), https://classic.carefluence.com/r4/.well-known/smart-configuration
+  (HTTP 200), the CapabilityStatement security block at
+  https://classic.carefluence.com/r4/metadata (HTTP 200), and the
+  "Security & Authorization Flow" section of the published Postman collection
+  at https://api.carefluence.com/
+name: Carefluence Open API R4 authentication
+description: >-
+  Carefluence Open API R4 is a SMART-on-FHIR surface. Every resource call
+  carries an OAuth 2.0 bearer token in the Authorization header; tokens are
+  issued by a first-party IdentityServer-style OpenID Connect authorization
+  server at https://core.carefluence.com/cf.admin.core. There is no API-key
+  path.
+schemes:
+- id: smart_on_fhir_oauth2
+  type: oauth2
+  in: header
+  header: Authorization
+  format: 'Bearer <access_token>'
+  description: >-
+    OAuth 2.0 + OpenID Connect, profiled by SMART App Launch. The provider's
+    own documentation states the authorization code grant is the only grant it
+    recommends for app developers ("the only grant type supported in this
+    release because it is considered secure"), although the discovery document
+    advertises a wider set.
+  issuer: https://core.carefluence.com/cf.admin.core
+  endpoints:
+    authorization: https://core.carefluence.com/cf.admin.core/connect/authorize
+    token: https://core.carefluence.com/cf.admin.core/connect/token
+    userinfo: https://core.carefluence.com/cf.admin.core/connect/userinfo
+    introspection: https://core.carefluence.com/cf.admin.core/connect/introspect
+    revocation: https://core.carefluence.com/cf.admin.core/connect/revocation
+    end_session: https://core.carefluence.com/cf.admin.core/connect/endsession
+    check_session_iframe: https://core.carefluence.com/cf.admin.core/connect/checksession
+    device_authorization: https://core.carefluence.com/cf.admin.core/connect/deviceauthorization
+    jwks: https://core.carefluence.com/cf.admin.core/.well-known/openid-configuration/jwks
+  grant_types_supported:
+  - authorization_code
+  - client_credentials
+  - refresh_token
+  - implicit
+  - password
+  - 'urn:ietf:params:oauth:grant-type:device_code'
+  response_types_supported: [code, token, id_token, 'id_token token', 'code id_token', 'code token', 'code id_token token']
+  response_modes_supported: [form_post, query, fragment]
+  pkce:
+    supported: true
+    code_challenge_methods: [plain, S256]
+  token_endpoint_auth_methods: [client_secret_basic, client_secret_post, private_key_jwt]
+  id_token_signing_alg_values: [RS256]
+  subject_types: [public]
+  scopes_documented: scopes/carefluence-scopes.yml
+- id: openid_connect
+  type: openIdConnect
+  openIdConnectUrl: https://core.carefluence.com/cf.admin.core/.well-known/openid-configuration
+  description: >-
+    Full OpenID Connect discovery is served anonymously; front-channel and
+    back-channel logout are both advertised as supported.
+  claims_supported: [address, email, email_verified, sub, phone, phone_verified, name, family_name,
+    given_name, middle_name, nickname, preferred_username, profile, picture, website, gender,
+    birthdate, zoneinfo, locale, updated_at]
+smart_on_fhir:
+  discovery: https://classic.carefluence.com/r4/.well-known/smart-configuration
+  capabilities:
+  - launch-ehr
+  - launch-standalone
+  - client-public
+  - client-confidential-symmetric
+  - sso-openid-connect
+  - context-banner
+  - context-style
+  - context-ehr-patient
+  - context-standalone-patient
+  - context-standalone-encounter
+  - permission-offline
+  - permission-patient
+  - permission-user
+  client_types:
+  - id: confidential
+    description: Clients that can protect a client_secret (server-side web apps, native mobile clients per the provider's docs).
+  - id: public
+    description: Clients that cannot protect a secret; supported via PKCE and the public client registration path.
+  capability_statement_security:
+    service: SMART-on-FHIR
+    system: http://terminology.hl7.org/CodeSystem/restful-security-service
+    oauth_uris_extension: http://fhir-registry.smarthealthit.org/StructureDefinition/oauth-uris
+onboarding:
+  developer_registration: https://core.carefluence.com/cf.admin.core/Account/RegisterDeveloper
+  developer_login: https://core.carefluence.com/cf.admin.core/Account/Login
+  approval_required: true
+  approval_note: >-
+    Registered developers register an application and the grants must be
+    approved by Carefluence administration before tokens are issued. Stated
+    verbatim in the Postman collection's Client Registration section.
+multi_factor_authentication:
+  available: true
+  optional_add_on: true
+  module: Carefluence SMART Connect
+  applies_to: [api-administrators, self-registered-developers, patients]
+  delivery: [email, sms]
+  note: >-
+    The provider states SMART Connect MFA is an option when the Open API
+    platform is deployed in Microsoft Azure, and that the platform can also
+    work with a customer's other MFA provider.
+  source: https://api.carefluence.com/ ("Multi-factor Authentication Option" section)
+token_response_shape:
+  access_token: string
+  token_type: Bearer
+  expires_in: 1200
+  note: Example lifetime published in the provider's own authorization walkthrough (1200 seconds).
+gaps:
+- No API-key or mutual-TLS path is documented for this API.
+- >-
+  The provider's prose says authorization_code is the only supported grant,
+  while the live discovery document advertises implicit, password and
+  client_credentials as well. Treat the discovery document as the machine
+  truth and the prose as the supported-integration guidance.

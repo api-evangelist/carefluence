@@ -1,0 +1,100 @@
+generated: '2026-09-02'
+method: searched
+source: >-
+  https://api.carefluence.com/ — "Errors & Exceptions" section of the published
+  Carefluence OpenAPI R4 Postman collection (saved verbatim at
+  postman/carefluence-openapi-r4-collection.json), plus the FHIR R4
+  OperationOutcome contract the server declares at
+  https://classic.carefluence.com/r4/metadata
+name: Carefluence Open API R4 error catalog
+description: >-
+  Carefluence does not publish an RFC 9457 problem-type registry. Its error
+  contract is the FHIR-native one: an HTTP status plus, on 4xx/5xx, a FHIR
+  OperationOutcome resource carrying issue[].severity, issue[].code,
+  issue[].details.text, issue[].diagnostics and issue[].location.
+format: fhir-operationoutcome
+media_type: application/fhir+json
+envelope:
+  resourceType: OperationOutcome
+  fields:
+  - id
+  - text.status
+  - text.div
+  - issue[].severity
+  - issue[].code
+  - issue[].details.text
+  - issue[].diagnostics
+  - issue[].location
+  reference: https://www.hl7.org/fhir/operationoutcome.html
+  published_example: |
+    {
+      "resourceType": "OperationOutcome",
+      "id": "101",
+      "text": { "status": "additional", "div": "W is not a recognized code for Gender." },
+      "issue": [
+        {
+          "severity": "error",
+          "code": "code-invalid",
+          "details": { "text": "The code \"W\" is not known and not legal in this context" },
+          "diagnostics": "Acme.Interop.FHIRProcessors.Patient.processGender line 2453",
+          "location": [ "/f:Person/f:gender" ]
+        }
+      ]
+    }
+statuses:
+- status: 200
+  title: OK
+  meaning: The request was processed appropriately.
+  published: true
+- status: 400
+  title: Bad Request
+  meaning: Invalid parameter.
+  remediation: >-
+    Check the FHIR search parameter names and value syntax against the
+    CapabilityStatement's per-resource searchParam list before retrying; an
+    OperationOutcome with issue.code = code-invalid or invalid names the
+    offending element in issue.location.
+  published: true
+- status: 401
+  title: Unauthorized
+  meaning: >-
+    The request did not have a valid authorization token or none was provided.
+  remediation: >-
+    Obtain a valid bearer token from
+    https://core.carefluence.com/cf.admin.core/connect/token and add it to the
+    Authorization header. Published token lifetime example is 1200 seconds; use
+    the refresh token issued under offline_access rather than re-running the
+    authorization code flow.
+  published: true
+- status: 403
+  title: Forbidden
+  meaning: >-
+    The user is not authorized for the operation. The user may not have access
+    to the patient, or an invalid scope was provided.
+  remediation: >-
+    Compare the granted scope against scopes/carefluence-scopes.yml. Clinical
+    scopes are read-only (patient/*.read, user/*.read, system/*.read); no write
+    scope is advertised, so any write attempt is expected to fail here.
+  published: true
+- status: 4xx
+  title: Authorization error
+  meaning: 'Published catch-all row: "4xx — Authorization error".'
+  published: true
+- status: 5xx
+  title: Server error
+  meaning: >-
+    Not enumerated by the provider. The provider states only that "a response
+    with a code in the 4xx or 5xx may contain additional information in the
+    form of a FHIR OperationOutcome".
+  published: partial
+issue_codes_referenced:
+- code: code-invalid
+  detail: Used in the provider's own published OperationOutcome example.
+  system: http://hl7.org/fhir/issue-type
+gaps:
+- >-
+  No per-code registry: the provider publishes five status rows, not a catalog
+  of application error codes, so an agent cannot branch on a stable error
+  identifier beyond the HTTP status and the FHIR issue.code.
+- No 429 / rate-limit exhaustion status is documented (see rate-limits/carefluence-rate-limits.yml).
+- No retry guidance, Retry-After semantics, or idempotent-retry contract is published.

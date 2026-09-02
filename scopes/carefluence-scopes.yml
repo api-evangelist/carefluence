@@ -1,0 +1,181 @@
+generated: '2026-09-02'
+method: probed
+source: https://core.carefluence.com/cf.admin.core/.well-known/openid-configuration (HTTP 200, fetched 2026-09-02) — scopes_supported read verbatim from the live OpenID Connect discovery document
+docs: https://api.carefluence.com/  # "Security & Authorization Flow" section: "The Carefluence OpenAPI R4 authorization server uses the scopes defined for Smart on FHIR."
+name: Carefluence Open API R4 OAuth scopes
+description: >-
+  The SMART on FHIR scope set advertised by the Carefluence authorization
+  server at https://core.carefluence.com/cf.admin.core. Every clinical scope
+  is read-only: the server advertises no .write or .* compound write scope,
+  even though the FHIR CapabilityStatement declares create/update/patch
+  interactions on 23 of its 24 resource types.
+issuer: https://core.carefluence.com/cf.admin.core
+authorization_endpoint: https://core.carefluence.com/cf.admin.core/connect/authorize
+token_endpoint: https://core.carefluence.com/cf.admin.core/connect/token
+scope_syntax: SMART App Launch scopes v1 (<compartment>/<Resource>.<access>)
+scope_count: 51
+scopes:
+- scope: 'address'
+  category: openid-connect
+  description: "Access the address claim."
+- scope: 'email'
+  category: openid-connect
+  description: "Access the email and email_verified claims."
+- scope: 'openid'
+  category: openid-connect
+  description: "Request an OpenID Connect ID token identifying the authorizing user."
+- scope: 'phone'
+  category: openid-connect
+  description: "Access the phone and phone_verified claims."
+- scope: 'profile'
+  category: openid-connect
+  description: "Access the standard OpenID profile claims (name, family_name, given_name, gender, birthdate, locale and related)."
+- scope: 'fhirUser'
+  category: openid-connect
+  description: "SMART fhirUser claim identifying the FHIR resource for the logged-in user."
+- scope: 'launch'
+  category: smart-launch-context
+  description: "SMART EHR launch context."
+- scope: 'launch/patient'
+  category: smart-launch-context
+  description: "SMART standalone launch requesting patient context selection."
+- scope: 'offline_access'
+  category: refresh
+  description: "Issue a refresh token so the app can act without the user present."
+- scope: 'patient/AllergyIntolerance.read'
+  category: smart-patient
+  description: "Read every AllergyIntolerance resource in the in-context patient's compartment."
+- scope: 'patient/CarePlan.read'
+  category: smart-patient
+  description: "Read every CarePlan resource in the in-context patient's compartment."
+- scope: 'patient/CareTeam.read'
+  category: smart-patient
+  description: "Read every CareTeam resource in the in-context patient's compartment."
+- scope: 'patient/Condition.read'
+  category: smart-patient
+  description: "Read every Condition resource in the in-context patient's compartment."
+- scope: 'patient/Device.read'
+  category: smart-patient
+  description: "Read every Device resource in the in-context patient's compartment."
+- scope: 'patient/DiagnosticReport.read'
+  category: smart-patient
+  description: "Read every DiagnosticReport resource in the in-context patient's compartment."
+- scope: 'patient/DocumentReference.read'
+  category: smart-patient
+  description: "Read every DocumentReference resource in the in-context patient's compartment."
+- scope: 'patient/Encounter.read'
+  category: smart-patient
+  description: "Read every Encounter resource in the in-context patient's compartment."
+- scope: 'patient/Goal.read'
+  category: smart-patient
+  description: "Read every Goal resource in the in-context patient's compartment."
+- scope: 'patient/Immunization.read'
+  category: smart-patient
+  description: "Read every Immunization resource in the in-context patient's compartment."
+- scope: 'patient/Location.read'
+  category: smart-patient
+  description: "Read every Location resource in the in-context patient's compartment."
+- scope: 'patient/Medication.read'
+  category: smart-patient
+  description: "Read every Medication resource in the in-context patient's compartment."
+- scope: 'patient/MedicationRequest.read'
+  category: smart-patient
+  description: "Read every MedicationRequest resource in the in-context patient's compartment."
+- scope: 'patient/Observation.read'
+  category: smart-patient
+  description: "Read every Observation resource in the in-context patient's compartment."
+- scope: 'patient/Organization.read'
+  category: smart-patient
+  description: "Read every Organization resource in the in-context patient's compartment."
+- scope: 'patient/Patient.read'
+  category: smart-patient
+  description: "Read every Patient resource in the in-context patient's compartment."
+- scope: 'patient/Practitioner.read'
+  category: smart-patient
+  description: "Read every Practitioner resource in the in-context patient's compartment."
+- scope: 'patient/PractitionerRole.read'
+  category: smart-patient
+  description: "Read every PractitionerRole resource in the in-context patient's compartment."
+- scope: 'patient/Procedure.read'
+  category: smart-patient
+  description: "Read every Procedure resource in the in-context patient's compartment."
+- scope: 'patient/Provenance.read'
+  category: smart-patient
+  description: "Read every Provenance resource in the in-context patient's compartment."
+- scope: 'user/AllergyIntolerance.read'
+  category: smart-user
+  description: "Read AllergyIntolerance resources the authorizing user is permitted to see."
+- scope: 'user/CarePlan.read'
+  category: smart-user
+  description: "Read CarePlan resources the authorizing user is permitted to see."
+- scope: 'user/CareTeam.read'
+  category: smart-user
+  description: "Read CareTeam resources the authorizing user is permitted to see."
+- scope: 'user/Condition.read'
+  category: smart-user
+  description: "Read Condition resources the authorizing user is permitted to see."
+- scope: 'user/Device.read'
+  category: smart-user
+  description: "Read Device resources the authorizing user is permitted to see."
+- scope: 'user/DiagnosticReport.read'
+  category: smart-user
+  description: "Read DiagnosticReport resources the authorizing user is permitted to see."
+- scope: 'user/DocumentReference.read'
+  category: smart-user
+  description: "Read DocumentReference resources the authorizing user is permitted to see."
+- scope: 'user/Encounter.read'
+  category: smart-user
+  description: "Read Encounter resources the authorizing user is permitted to see."
+- scope: 'user/Goal.read'
+  category: smart-user
+  description: "Read Goal resources the authorizing user is permitted to see."
+- scope: 'user/Immunization.read'
+  category: smart-user
+  description: "Read Immunization resources the authorizing user is permitted to see."
+- scope: 'user/Medication.read'
+  category: smart-user
+  description: "Read Medication resources the authorizing user is permitted to see."
+- scope: 'user/MedicationRequest.read'
+  category: smart-user
+  description: "Read MedicationRequest resources the authorizing user is permitted to see."
+- scope: 'user/Observation.read'
+  category: smart-user
+  description: "Read Observation resources the authorizing user is permitted to see."
+- scope: 'user/Organization.read'
+  category: smart-user
+  description: "Read Organization resources the authorizing user is permitted to see."
+- scope: 'user/Patient.read'
+  category: smart-user
+  description: "Read Patient resources the authorizing user is permitted to see."
+- scope: 'user/Practitioner.read'
+  category: smart-user
+  description: "Read Practitioner resources the authorizing user is permitted to see."
+- scope: 'user/PractitionerRole.read'
+  category: smart-user
+  description: "Read PractitionerRole resources the authorizing user is permitted to see."
+- scope: 'user/Procedure.read'
+  category: smart-user
+  description: "Read Procedure resources the authorizing user is permitted to see."
+- scope: 'user/Provenance.read'
+  category: smart-user
+  description: "Read Provenance resources the authorizing user is permitted to see."
+- scope: 'system/*.read'
+  category: smart-system
+  description: "Backend-services read access across all resource types the client is authorised for."
+- scope: 'user/Location.read'
+  category: smart-user
+  description: "Read Location resources the authorizing user is permitted to see."
+- scope: 'patient/*.read'
+  category: smart-patient
+  description: "Read every resource in the in-context patient's compartment."
+notes:
+- >-
+  scopes_supported in the live document lists 52 entries but contains
+  offline_access twice; 51 are distinct.
+- >-
+  patient/*.read and system/*.read wildcards are advertised alongside the
+  per-resource scopes.
+- >-
+  Location is advertised under user/ and patient/ but the CapabilityStatement
+  exposes Location as an open directory-style search; treat scope grants as
+  the authoritative access control.

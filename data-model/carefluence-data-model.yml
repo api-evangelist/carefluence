@@ -1,0 +1,311 @@
+generated: '2026-09-02'
+method: derived
+source: >-
+  fhir/carefluence-openapi-r4-capabilitystatement.json (fetched live from
+  https://classic.carefluence.com/r4/metadata, HTTP 200) and the USCDI
+  element tables published per resource in
+  postman/carefluence-openapi-r4-collection.json
+name: Carefluence Open API R4 data model
+description: >-
+  Entity graph of the Carefluence FHIR R4 server. Entities are the resource
+  types the server actually declares; relationships are derived from the FHIR
+  R4 reference fields that the declared search parameters expose (a `patient`
+  search parameter on a resource means that resource carries a Reference to
+  Patient). No relationship is asserted that the server does not expose a
+  search parameter or a US Core profile for.
+model: hl7-fhir-r4
+profile_pack: US Core Implementation Guide v3.1.1
+entity_count: 24
+identifier_scheme: FHIR logical id (resource-scoped, opaque); business identifiers carried in Resource.identifier with a system URI
+root_entity: Patient
+entities:
+- name: AllergyIntolerance
+  interactions: [create, read, search-type, patch, update]
+  search_params: [_id, date, identifier, asserter, patient, category, clinical-status, code, criticality, manifestation, onset, recorder, route, severity, type, verification-status]
+  supported_profiles:
+  - http://hl7.org/fhir/us/core/StructureDefinition/us-core-allergyintolerance
+  conditional_update: true
+  conditional_create: false
+  conditional_delete: not-supported
+- name: AuditEvent
+  interactions: [read, create, search-type]
+  search_params: [id, patient, action, date, address, agent, agent-name, agent-role, outcome, site, source]
+- name: CarePlan
+  interactions: [search-type, read, create, patch, update]
+  search_params: [patient, date, category]
+  supported_profiles:
+  - http://hl7.org/fhir/us/core/StructureDefinition/us-core-careplan
+  conditional_update: true
+  conditional_create: false
+  conditional_delete: not-supported
+- name: CareTeam
+  interactions: [create, read, update, patch, search-type]
+  search_params: [id, status, patient]
+  supported_profiles:
+  - http://hl7.org/fhir/us/core/StructureDefinition/us-core-careteam
+- name: Condition
+  interactions: [search-type, read, create, patch, update]
+  search_params: [_id, abatement-age, abatement-date, abatement-string, asserter, body-site, category, clinical-status, code, encounter, evidence, identifier, onset-age, onset-date, onset-info, recorded-date, severity, stage, subject, verification-status]
+  supported_profiles:
+  - http://hl7.org/fhir/us/core/StructureDefinition/us-core-condition
+  conditional_update: true
+  conditional_create: false
+  conditional_delete: not-supported
+- name: Device
+  interactions: [read, create, search-type, patch, update]
+  search_params: [patient, date]
+  supported_profiles:
+  - http://hl7.org/fhir/us/core/StructureDefinition/us-core-implantable-device
+- name: DiagnosticReport
+  interactions: [read, create, patch, search-type, update]
+  search_params: [id, patient, category, code, date]
+  supported_profiles:
+  - http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-lab
+  - http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-note
+- name: DocumentReference
+  interactions: [search-type, read, create, patch, update]
+  search_params: [_id, patient, category, date]
+  supported_profiles:
+  - http://hl7.org/fhir/us/core/StructureDefinition/us-core-documentreference
+  conditional_update: true
+  conditional_create: false
+  conditional_delete: not-supported
+- name: Encounter
+  interactions: [search-type, read, create, patch, update]
+  search_params: [patient, date]
+  supported_profiles:
+  - http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter
+- name: Goal
+  interactions: [search-type, read, create, patch, update]
+  search_params: [patient, date]
+  supported_profiles:
+  - http://hl7.org/fhir/us/core/StructureDefinition/us-core-goal
+- name: Group
+  interactions: []
+  search_params: []
+  operations:
+  - name: export
+    definition: http://hl7.org/fhir/uv/bulkdata/OperationDefinition/group-export
+- name: Immunization
+  interactions: [search-type, read, create, patch, update]
+  search_params: [patient, date]
+  supported_profiles:
+  - http://hl7.org/fhir/us/core/StructureDefinition/us-core-immunization
+- name: Location
+  interactions: [read, search-type]
+  search_params: [id, name]
+  supported_profiles:
+  - http://hl7.org/fhir/us/core/StructureDefinition/us-core-location
+- name: Medication
+  interactions: [read, create, search-type, patch, update]
+  search_params: [id, code, status, form, expiration-date, lot-number, manufacturer]
+  supported_profiles:
+  - http://hl7.org/fhir/us/core/StructureDefinition/us-core-medication
+- name: MedicationRequest
+  interactions: [search-type, read, create, patch, update]
+  search_params: [_id, name, gender, birthdate]
+  supported_profiles:
+  - http://hl7.org/fhir/us/core/StructureDefinition/us-core-medicationrequest
+  conditional_update: true
+  conditional_create: false
+  conditional_delete: not-supported
+- name: MedicationStatement
+  interactions: [read, create, search-type, patch, update]
+  search_params: [id, patient, identifier, category, code, context, effective, medication, part-of, source, status, subject]
+- name: Observation
+  interactions: [create, update, search-type, patch, read]
+  search_params: [id, category, code, date, patient]
+  supported_profiles:
+  - http://hl7.org/fhir/us/core/StructureDefinition/us-core-smokingstatus
+  - http://hl7.org/fhir/us/core/StructureDefinition/pediatric-weight-for-height
+  - http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-lab
+  - http://hl7.org/fhir/us/core/StructureDefinition/pediatric-bmi-for-age
+  - http://hl7.org/fhir/us/core/StructureDefinition/us-core-pulse-oximetry
+  - http://hl7.org/fhir/us/core/StructureDefinition/us-core-pulse-oximetry
+  - http://hl7.org/fhir/us/core/StructureDefinition/head-occipital-frontal-circumference-percentile
+  - http://hl7.org/fhir/StructureDefinition/bp
+  - http://hl7.org/fhir/StructureDefinition/bodyheight
+  - http://hl7.org/fhir/StructureDefinition/bodyweight
+  - http://hl7.org/fhir/StructureDefinition/heartrate
+  - http://hl7.org/fhir/StructureDefinition/resprate
+  - http://hl7.org/fhir/StructureDefinition/bodytemp
+  conditional_update: true
+  conditional_create: false
+  conditional_delete: not-supported
+- name: Organization
+  interactions: [read, create, search-type, patch, update]
+  search_params: [id, name]
+  supported_profiles:
+  - http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization
+- name: Patient
+  interactions: [search-type, read, create, patch, update]
+  search_params: [_id, identifier, name, gender, birthdate]
+  supported_profiles:
+  - http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient
+  conditional_update: true
+  conditional_create: false
+  conditional_delete: not-supported
+- name: Person
+  interactions: [search-type, read, create, patch, update]
+  search_params: [_id, name, gender, birthdate, identifier, email]
+  conditional_update: true
+  conditional_create: false
+  conditional_delete: not-supported
+- name: Practitioner
+  interactions: [create, read, update, patch, search-type]
+  search_params: [id, family, given]
+  supported_profiles:
+  - http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner
+- name: Procedure
+  interactions: [read, create, search-type, patch, update]
+  search_params: [patient, date]
+  supported_profiles:
+  - http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure
+- name: Provenance
+  interactions: [search-type, read, create, patch, update]
+  search_params: [_id, name, gender, birthdate]
+  supported_profiles:
+  - http://hl7.org/fhir/us/core/StructureDefinition/us-core-provenance
+  conditional_update: true
+  conditional_create: false
+  conditional_delete: not-supported
+- name: ServiceRequest
+  interactions: [read, create, search-type, update]
+  search_params: [patient, date]
+relationships:
+- from: AllergyIntolerance
+  to: Patient
+  type: belongs_to
+  via: AllergyIntolerance.patient
+  evidence: 'searchParam `patient` declared on AllergyIntolerance'
+- from: CarePlan
+  to: Patient
+  type: belongs_to
+  via: CarePlan.subject
+  evidence: 'searchParam `patient` declared on CarePlan'
+- from: CareTeam
+  to: Patient
+  type: belongs_to
+  via: CareTeam.subject
+  evidence: 'searchParam `patient` declared on CareTeam'
+- from: Condition
+  to: Patient
+  type: belongs_to
+  via: Condition.subject
+  evidence: 'searchParam `subject` declared on Condition'
+- from: Condition
+  to: Encounter
+  type: belongs_to
+  via: Condition.encounter
+  evidence: 'searchParam `encounter` declared on Condition'
+- from: Device
+  to: Patient
+  type: belongs_to
+  via: Device.patient
+  evidence: 'searchParam `patient` declared on Device'
+- from: DiagnosticReport
+  to: Patient
+  type: belongs_to
+  via: DiagnosticReport.subject
+  evidence: 'searchParam `patient` declared on DiagnosticReport'
+- from: DocumentReference
+  to: Patient
+  type: belongs_to
+  via: DocumentReference.subject
+  evidence: 'searchParam `patient` declared on DocumentReference'
+- from: Encounter
+  to: Patient
+  type: belongs_to
+  via: Encounter.subject
+  evidence: 'searchParam `patient` declared on Encounter'
+- from: Goal
+  to: Patient
+  type: belongs_to
+  via: Goal.subject
+  evidence: 'searchParam `patient` declared on Goal'
+- from: Immunization
+  to: Patient
+  type: belongs_to
+  via: Immunization.patient
+  evidence: 'searchParam `patient` declared on Immunization'
+- from: MedicationRequest
+  to: Medication
+  type: belongs_to
+  via: MedicationRequest.medicationReference
+  evidence: >-
+    Both MedicationRequest and Medication are declared resource types with US
+    Core profiles; US Core MedicationRequest references Medication when the
+    medication is not inline.
+- from: MedicationStatement
+  to: Patient
+  type: belongs_to
+  via: MedicationStatement.subject
+  evidence: 'searchParams `patient` and `subject` declared on MedicationStatement'
+- from: MedicationStatement
+  to: Medication
+  type: belongs_to
+  via: MedicationStatement.medicationReference
+  evidence: 'searchParam `medication` declared on MedicationStatement'
+- from: MedicationStatement
+  to: Encounter
+  type: belongs_to
+  via: MedicationStatement.context
+  evidence: 'searchParam `context` declared on MedicationStatement'
+- from: Observation
+  to: Patient
+  type: belongs_to
+  via: Observation.subject
+  evidence: 'searchParam `patient` declared on Observation'
+- from: Procedure
+  to: Patient
+  type: belongs_to
+  via: Procedure.subject
+  evidence: 'searchParam `patient` declared on Procedure'
+- from: ServiceRequest
+  to: Patient
+  type: belongs_to
+  via: ServiceRequest.subject
+  evidence: 'searchParam `patient` declared on ServiceRequest'
+- from: AuditEvent
+  to: Patient
+  type: belongs_to
+  via: AuditEvent.entity
+  evidence: 'searchParam `patient` declared on AuditEvent'
+- from: Provenance
+  to: Patient
+  type: has_many
+  via: Provenance.target
+  evidence: >-
+    The published collection includes
+    {base}/Patient?_id=4&_revinclude=Provenance:target, i.e. Provenance points
+    at the resources it describes rather than the reverse.
+- from: CareTeam
+  to: Organization
+  type: belongs_to
+  via: CareTeam.managingOrganization
+  evidence: 'USCDI element table published for CareTeam maps "careteam member location" to CareTeam.managingOrganization'
+- from: Patient
+  to: Organization
+  type: belongs_to
+  via: Patient.managingOrganization
+  evidence: 'Both resource types declared with US Core profiles; standard US Core Patient linkage'
+notes:
+- >-
+  Patient is the compartment root: 12 resource types declare a `patient` search
+  parameter, and the SMART scope set is expressed per-resource inside the
+  patient compartment (patient/<Resource>.read).
+- >-
+  Provenance, Practitioner, Organization and Location are the reference/directory
+  entities; Location is the only resource with no write interaction at all.
+- >-
+  Group carries no interactions and no search parameters — it exists solely to
+  host the bulk-data $export operation.
+- >-
+  Provenance and MedicationRequest declare a search parameter set of
+  [_id, name, gender, birthdate], which is the Patient parameter set copied
+  onto resources it does not apply to. Recorded as observed; it looks like a
+  defect in the CapabilityStatement rather than a real capability.
+- >-
+  No Subscription resource is declared, so there is no FHIR-native event or
+  webhook surface on this server.
+render: null

@@ -1,0 +1,85 @@
+generated: '2026-09-02'
+method: searched
+source: https://carefluence.com/mcp-server/ (HTTP 200, fetched 2026-09-02)
+name: Carefluence MCP Server
+status: announced-no-public-endpoint
+description: >-
+  Carefluence markets an "Enterprise-grade Model Context Protocol (MCP) server
+  built on FHIR & OpenAPI standards" on a dedicated product page. The page
+  describes the product in detail but publishes no endpoint URL, no install
+  command, no package, and no tool manifest — the only call to action is "Book a
+  Technical Demo". Nothing on the Carefluence surface can be reached by an MCP
+  client today.
+deployment:
+  mode: none
+  endpoint: null
+  install: null
+  package: null
+  auth: oauth
+  verified: searched
+  note: >-
+    mode is `none` because no reachable server is published, NOT because the
+    provider ships nothing — they claim a product. Recorded as announced rather
+    than derived-candidate. auth is oauth because the product page states
+    "OAuth2 & OpenID Secured / Granular control with patient and provider-level
+    scopes", which matches the live authorization server in
+    authentication/carefluence-authentication.yml.
+probes:
+- url: https://carefluence.com/mcp
+  method: 'POST tools/list'
+  status: 404
+- url: https://classic.carefluence.com/mcp
+  method: 'POST tools/list'
+  status: 404
+- url: https://core.carefluence.com/mcp
+  method: 'POST tools/list'
+  status: 404
+- url: https://api.carefluence.com/mcp
+  method: 'POST tools/list'
+  status: 404
+  note: api.carefluence.com is the Postman-hosted public documentation host, not an API host.
+- url: https://mcp.carefluence.com/mcp
+  method: 'POST tools/list'
+  status: '<no response>'
+  note: DNS does not resolve.
+- url: https://carefluence.com/.well-known/ai-plugin.json
+  status: 404
+- url: https://carefluence.com/llms.txt
+  status: 404
+published_claims:
+  positioning: The enterprise bridge between health records and LLMs.
+  compatibility_claimed: [OpenAI GPTs, Anthropic Claude, Azure AI Foundry, LangChain, LangGraph]
+  capabilities_claimed:
+  - id: oauth2-openid-secured
+    detail: 'Granular control with patient and provider-level scopes; built-in OpenID server.'
+  - id: tool-calling-support
+    detail: 'Enables AI agents to autonomously request specific data points in real time during a conversation.'
+  - id: data-normalization
+    detail: 'Structures and normalizes raw health data (HL7 v2, CCDA, CSV, JSON) into FHIR resources.'
+  - id: standards-based
+    detail: 'Built strictly on FHIR + OpenAPI standards.'
+  - id: real-time-delivery
+    detail: 'Supports FHIR read, search and workflow APIs.'
+  illustrative_tool_call:
+    published_example: 'carefluence.get_fhir_resources(patient_id="123", type="Encounter", specialty="Cardiology")'
+    source: https://carefluence.com/mcp-server/
+    caution: >-
+      This is a marketing terminal mock-up on the product page. It is NOT a
+      tool manifest, the tool name has not been verified against any live
+      server, and it must not be treated as an inputSchema. Recorded verbatim
+      only as evidence of what the provider advertises.
+underlying_surface:
+  note: >-
+    If and when the server is published, its backing contract is the FHIR R4
+    surface already harvested here.
+  capability_statement: fhir/carefluence-openapi-r4-capabilitystatement.json
+  resource_types: 24
+  authorization_server: https://core.carefluence.com/cf.admin.core
+  scopes: scopes/carefluence-scopes.yml
+gaps:
+- >-
+  No apis.yml MCPServer pointer is emitted for this artifact. That pointer
+  asserts an agent-reachable server, and there is none: no endpoint, no npx/pip
+  install, no package, no tools/list response. Emit it the moment Carefluence
+  publishes a URL or an install command.
+- No tool crosswalk is possible: there is neither a live MCP tool list nor an OpenAPI to bind tools to.

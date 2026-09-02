@@ -1,0 +1,134 @@
+generated: '2026-09-02'
+method: searched
+source: >-
+  https://classic.carefluence.com/r4/metadata (CapabilityStatement, HTTP 200),
+  https://api.carefluence.com/ (published Postman collection, saved at
+  postman/carefluence-openapi-r4-collection.json), and
+  https://core.carefluence.com/cf.admin.core/.well-known/openid-configuration
+name: Carefluence Open API R4 conventions
+description: >-
+  Cross-cutting runtime semantics for the Carefluence FHIR R4 API. Where the
+  provider documents nothing, the FHIR R4 base specification governs — but that
+  is the standard's contract, not Carefluence's, and it is recorded as such.
+base_url: https://classic.carefluence.com/r4/
+alternate_hosts:
+- https://fhir.carefluence.com/r4/
+media_types:
+  request: [application/fhir+json, application/fhir+xml]
+  response: [application/fhir+json, application/fhir+xml]
+  note: >-
+    Both JSON and XML are declared in CapabilityStatement.format. The provider's
+    documentation says "for simplicity, we limit our examples to JSON".
+auth:
+  style: 'OAuth 2.0 bearer token in the Authorization header (Authorization: Bearer <token>)'
+  detail: authentication/carefluence-authentication.yml
+  scopes: scopes/carefluence-scopes.yml
+versioning:
+  style: path-segment keyed to the FHIR release (/r4)
+  header: none
+  detail: lifecycle/carefluence-lifecycle.yml
+pagination:
+  style: FHIR Bundle link cursor
+  observed_params: [searchId, page, _count, startIndex, _total]
+  default_page_size: 20
+  evidence: >-
+    Saved example responses in the published collection carry Bundle.link URLs
+    such as
+    https://classic.carefluence.com/r4/Patient?name=Chalmers&searchId=&page=1&_count=20&startIndex=0&_total=1
+    and a page=2 / startIndex=20 sibling.
+  documented_by_provider: false
+  note: >-
+    The paging parameters are visible only in saved example payloads; there is
+    no prose page in the documentation that explains them.
+search:
+  style: FHIR REST search
+  per_resource_parameters: fhir/carefluence-openapi-r4-capabilitystatement.json
+  compound_search_supported: true
+  post_search_supported: true
+  post_search_evidence: 'POST {base}/Patient/_search is published in the collection.'
+  includes:
+    _revinclude: 'Published: {base}/Patient?_id=4&_revinclude=Provenance:target'
+  note: >-
+    Search parameters are declared per resource in the CapabilityStatement,
+    e.g. Patient [_id, identifier, name, gender, birthdate] and Observation
+    [id, category, code, date, patient].
+field_selection:
+  expansion: not supported
+  sparse_fieldsets: not documented
+  note: FHIR _elements / _summary are not declared in the CapabilityStatement.
+metadata:
+  discovery_endpoint: 'GET {base}/metadata (FHIR CapabilityStatement, anonymous)'
+  smart_discovery: 'GET {base}/.well-known/smart-configuration (anonymous)'
+  openid_discovery: https://core.carefluence.com/cf.admin.core/.well-known/openid-configuration
+request_id_tracing:
+  supported: not documented
+  note: >-
+    No request-id, correlation-id or trace header is documented. The provider's
+    own OperationOutcome example leaks an internal stack location
+    ("Acme.Interop.FHIRProcessors.Patient.processGender line 2453") in
+    issue.diagnostics, which is the only correlating detail shown.
+error_envelope:
+  format: FHIR OperationOutcome
+  detail: errors/carefluence-problem-types.yml
+rate_limit_signaling:
+  headers: not documented
+  status_on_exhaustion: not documented
+  detail: rate-limits/carefluence-rate-limits.yml
+idempotency:
+  key_header: null
+  documented: false
+  conditional_write:
+    conditionalCreate: false
+    conditionalUpdate: true
+    conditionalDelete: not-supported
+    source: fhir/carefluence-openapi-r4-capabilitystatement.json
+  assessment: >-
+    There is no idempotency-key contract. FHIR PUT update is idempotent by HTTP
+    semantics and the server declares conditionalUpdate = true, but no
+    developer-facing documentation describes either as a safe-retry mechanism,
+    and conditionalCreate is explicitly false — so an agent has no published way
+    to make a create safely retryable. No Idempotency pointer is emitted for
+    this repo.
+dry_run_mode:
+  supported: na
+  note: >-
+    No validate/$validate operation is declared in the CapabilityStatement and
+    no dry-run parameter is documented.
+reversibility:
+  grade: none
+  write_surface_present: true
+  write_surface_detail: >-
+    23 of 24 resource types declare create, update and patch interactions in
+    the CapabilityStatement (Location is read/search only; Group declares only
+    the bulk-data $export operation).
+  delete_supported: false
+  delete_evidence: >-
+    Every writeable resource declares conditionalDelete = "not-supported" and no
+    resource declares a `delete` interaction. Deletion is therefore not an
+    exposed action, which removes one class of irreversible mistake but also
+    means there is no restore path to document.
+  reversal_operations: []
+  windows: []
+  assessment: >-
+    Carefluence documents no reversal operation and no window for any write.
+    An agent that creates or updates a clinical resource here has no published
+    undo: the only corrective path is a further update/patch that overwrites
+    the value, and resource history (vread / _history) is not declared in the
+    CapabilityStatement, so the prior state cannot even be read back. Graded
+    `none` rather than `documented` — there is no cancel, void, reverse, undo,
+    rollback or restore anywhere in the contract or the documentation.
+  caveat: >-
+    In practice the published scope set is read-only (no .write scope is
+    advertised by the authorization server), so the write surface declared in
+    the CapabilityStatement may not be grantable to any client. That mismatch
+    between the contract and the scopes is itself the finding; it is not a
+    reversibility policy.
+  checked: '2026-09-02'
+cross_links:
+  authentication: authentication/carefluence-authentication.yml
+  scopes: scopes/carefluence-scopes.yml
+  errors: errors/carefluence-problem-types.yml
+  lifecycle: lifecycle/carefluence-lifecycle.yml
+  rate_limits: rate-limits/carefluence-rate-limits.yml
+  data_model: data-model/carefluence-data-model.yml
+  conformance: conformance/carefluence-conformance.yml

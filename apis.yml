@@ -1,23 +1,198 @@
 aid: carefluence
 name: Carefluence
-description: 'Carefluence is a company surfaced via the API Evangelist harvest backlog (source: openehr-coalition)
-  and added to the network as a stub for full-pipeline profiling.'
+description: >-
+  Carefluence is a US health-IT interoperability vendor whose product is an
+  ONC-certified, FHIR-based Open API platform that EHR, telehealth, remote
+  patient monitoring, HIE and health-analytics vendors license to reach
+  regulatory compliance and to exchange clinical data with other systems. The
+  Carefluence Open API R4 was certified on 2022-06-29 under CHPL ID
+  15.04.04.2657.Care.R4.01.0.220629 against ONC criteria 170.315 (d)(1,3,9-10,12-13)
+  and (g)(4-7,9-10), including the § 170.315(g)(10) Standardized API for Patient
+  and Population Services; the company states it was the first FHIR-based Open
+  API product to earn ONC 2015 Edition certification, in July 2016, and was an
+  early participant in the Argonaut Project. The platform is a FHIR R4 server
+  (US Core IG v3.1.1, 24 resource types) fronted by a first-party SMART on FHIR
+  OAuth 2.0 / OpenID Connect authorization server, with a data translator for
+  HL7 v2 and C-CDA normalization, adapters for non-FHIR back ends, a built-in
+  integration engine, an asynchronous FHIRops product, and an announced Model
+  Context Protocol server for AI agents.
+image: https://carefluence.com/wp-content/uploads/2018/04/Logo-WHT-nds1740.png
 url: https://raw.githubusercontent.com/api-evangelist/carefluence/refs/heads/main/apis.yml
 x-type: company
 x-source: harvest:openehr-coalition
-x-tier: stub
-x-tier-reason: harvest
 specificationVersion: '0.20'
 created: '2026-09-02'
 modified: '2026-09-02'
 tags:
 - Company
-apis: []
+- Healthcare
+- Interoperability
+- FHIR
+- HL7
+- SMART on FHIR
+- Electronic Health Records
+- Clinical Data
+- Health IT
+- ONC Certified
+- USCDI
+- OAuth 2.0
+- Telehealth
+- Health Information Exchange
+apis:
+- aid: carefluence:openapi-r4
+  name: Carefluence Open API R4
+  description: >-
+    The ONC-certified § 170.315(g)(10) Standardized API for Patient and
+    Population Services. A HL7 FHIR R4 (4.0.1) RESTful server conforming to the
+    US Core Implementation Guide v3.1.1, exposing 24 resource types — Patient,
+    Encounter, Condition, AllergyIntolerance, MedicationRequest, Medication,
+    MedicationStatement, Immunization, Procedure, Observation, DiagnosticReport,
+    DocumentReference, CarePlan, CareTeam, Goal, Device, Provenance,
+    Practitioner, Organization, Location, ServiceRequest, AuditEvent, Person and
+    Group — in JSON or XML, secured with SMART on FHIR OAuth 2.0 bearer tokens.
+    Group declares the FHIR Bulk Data group-export operation.
+  image: https://carefluence.com/wp-content/uploads/2018/04/Logo-WHT-nds1740.png
+  humanURL: https://api.carefluence.com/
+  baseURL: https://classic.carefluence.com/r4/
+  tags:
+  - FHIR
+  - US Core
+  - USCDI
+  - SMART on FHIR
+  - Clinical Data
+  - Interoperability
+  - ONC Certified
+  properties:
+  - type: Documentation
+    url: https://api.carefluence.com/
+  - type: APIReference
+    url: https://api.carefluence.com/
+  - type: CapabilityStatement
+    url: fhir/carefluence-openapi-r4-capabilitystatement.json
+  - type: Postman
+    url: https://api.carefluence.com/
+  - type: PostmanCollection
+    url: postman/carefluence-openapi-r4-collection.json
+  - type: WellKnown
+    url: well-known/carefluence-smart-configuration.json
+  - type: ErrorCatalog
+    url: errors/carefluence-problem-types.yml
+  - type: DataModel
+    url: data-model/carefluence-data-model.yml
+  - type: RateLimits
+    url: rate-limits/carefluence-rate-limits.yml
+  - type: Sandbox
+    url: sandbox/carefluence-sandbox.yml
+  - type: TermsOfService
+    url: https://carefluence.com/openapi-terms-conditions/
+- aid: carefluence:authorization-server
+  name: Carefluence SMART on FHIR Authorization Server
+  description: >-
+    The first-party OpenID Connect / OAuth 2.0 authorization server that issues
+    every token the Carefluence Open API R4 accepts, and the administration
+    portal where developers register applications and request grants. Publishes
+    full OpenID Connect discovery and a JWKS anonymously, supports PKCE (S256),
+    RS256 ID tokens, front-channel and back-channel logout, token introspection
+    and revocation, and advertises 51 distinct SMART on FHIR scopes across the
+    patient, user and system compartments.
+  image: https://carefluence.com/wp-content/uploads/2018/04/Logo-WHT-nds1740.png
+  humanURL: https://api.carefluence.com/
+  baseURL: https://core.carefluence.com/cf.admin.core
+  tags:
+  - OAuth 2.0
+  - OpenID Connect
+  - SMART on FHIR
+  - Identity
+  - Authorization
+  properties:
+  - type: Documentation
+    url: https://api.carefluence.com/
+  - type: OpenIDConnect
+    url: well-known/carefluence-openid-configuration.json
+  - type: Authentication
+    url: authentication/carefluence-authentication.yml
+  - type: OAuthScopes
+    url: scopes/carefluence-scopes.yml
+  - type: SignUp
+    url: https://core.carefluence.com/cf.admin.core/Account/RegisterDeveloper
+  - type: Login
+    url: https://core.carefluence.com/cf.admin.core/Account/Login
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: DomainSecurity
+  url: security/carefluence-domain-security.yml
 - type: Website
   url: https://carefluence.com/
+- type: DeveloperPortal
+  url: https://api.carefluence.com/
+- type: Documentation
+  url: https://api.carefluence.com/
+- type: APIReference
+  url: https://api.carefluence.com/
+- type: Postman
+  url: https://api.carefluence.com/
+- type: Support
+  url: https://carefluence.com/reach-us/
+- type: Blog
+  url: https://carefluence.com/news-blogs/
+- type: BlogRSS
+  url: https://carefluence.com/feed/
+- type: Pricing
+  url: https://carefluence.com/onc-certification/
+- type: SignUp
+  url: https://core.carefluence.com/cf.admin.core/Account/RegisterDeveloper
+- type: Login
+  url: https://core.carefluence.com/cf.admin.core/Account/Login
+- type: TermsOfService
+  url: https://carefluence.com/openapi-terms-conditions/
+- type: Compliance
+  url: https://carefluence.com/onc-certification/
+- type: Certification
+  url: https://chpl.healthit.gov/#/listing/10922
+- type: LinkedIn
+  url: https://www.linkedin.com/company/carefluence/
+- type: Twitter
+  url: https://twitter.com/carefluence
+- type: Authentication
+  url: authentication/carefluence-authentication.yml
+- type: OAuthScopes
+  url: scopes/carefluence-scopes.yml
+- type: Conformance
+  url: conformance/carefluence-conformance.yml
+- type: ErrorCatalog
+  url: errors/carefluence-problem-types.yml
+- type: Lifecycle
+  url: lifecycle/carefluence-lifecycle.yml
+- type: Conventions
+  url: conventions/carefluence-conventions.yml
+- type: DataModel
+  url: data-model/carefluence-data-model.yml
+- type: Packages
+  url: packages/carefluence-packages.yml
+- type: SDKs
+  url: packages/carefluence-packages.yml
+- type: WellKnown
+  url: well-known/carefluence-well-known.yml
+- type: CapabilityStatement
+  url: fhir/carefluence-openapi-r4-capabilitystatement.json
+- type: Components
+  url: components/carefluence-components.yml
+- type: Sandbox
+  url: sandbox/carefluence-sandbox.yml
+- type: Plans
+  url: plans/carefluence-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/carefluence-rate-limits.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: LLMsTxt
+  url: llms/carefluence-llms.txt
+x-enrichment:
+  date: '2026-09-02'
+  status: enriched
+  artifacts_added: 24
+  pass: local-v1

@@ -1,0 +1,109 @@
+generated: '2026-09-02'
+method: probed
+source: live GET of each path listed below, 2026-09-02
+name: Carefluence well-known documents
+description: >-
+  Named-path probe of every host Carefluence operates for its ONC-certified
+  Open API R4 platform. The marketing host serves nothing at /.well-known/,
+  but the FHIR service base and the SMART/OpenID authorization server both
+  serve real discovery documents anonymously.
+hosts:
+- host: carefluence.com
+  role: marketing website (WordPress)
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+    file: null
+  - path: /.well-known/openid-configuration
+    status: 404
+    file: null
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+    file: null
+  - path: /.well-known/api-catalog
+    status: 404
+    file: null
+  - path: /.well-known/ai-plugin.json
+    status: 404
+    file: null
+  - path: /.well-known/agent-card.json
+    status: 404
+    file: null
+  - path: /.well-known/agent.json
+    status: 404
+    file: null
+- host: classic.carefluence.com
+  role: FHIR R4 service base (https://classic.carefluence.com/r4/)
+  documents:
+  - path: /r4/.well-known/smart-configuration
+    status: 200
+    file: well-known/carefluence-smart-configuration.json
+    content_type: application/json; charset=utf-8
+    note: >-
+      SMART App Launch discovery. Declares 13 capabilities including
+      launch-ehr, launch-standalone, client-public,
+      client-confidential-symmetric, sso-openid-connect, permission-offline,
+      permission-patient and permission-user.
+  - path: /.well-known/security.txt
+    status: 404
+    file: null
+  - path: /.well-known/api-catalog
+    status: 404
+    file: null
+  - path: /.well-known/agent-card.json
+    status: 404
+    file: null
+  - path: /.well-known/agent.json
+    status: 404
+    file: null
+  - path: /r4/.well-known/openid-configuration
+    status: 404
+    file: null
+    note: 'Returns a Web API routing error; the OpenID metadata lives on core.carefluence.com.'
+- host: core.carefluence.com
+  role: SMART on FHIR / OpenID Connect authorization server (IdentityServer, base path /cf.admin.core)
+  documents:
+  - path: /cf.admin.core/.well-known/openid-configuration
+    status: 200
+    file: well-known/carefluence-openid-configuration.json
+    content_type: application/json; charset=UTF-8
+    note: >-
+      issuer https://core.carefluence.com/cf.admin.core; declares 51 supported
+      scopes including the full SMART patient/*.read, user/*.read and
+      system/*.read families.
+  - path: /cf.admin.core/.well-known/openid-configuration/jwks
+    status: 200
+    file: well-known/carefluence-openid-configuration-jwks.json
+    content_type: application/jwk-set+json; charset=UTF-8
+  - path: /.well-known/openid-configuration
+    status: 404
+    file: null
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+    file: null
+  - path: /cf.admin.core/.well-known/oauth-authorization-server
+    status: 404
+    file: null
+  - path: /.well-known/security.txt
+    status: 404
+    file: null
+  - path: /.well-known/agent-card.json
+    status: 404
+    file: null
+- host: fhir.carefluence.com
+  role: alias of the FHIR R4 service base (serves the identical CapabilityStatement, which self-declares classic.carefluence.com/r4/ as its implementation URL)
+  documents:
+  - path: /r4/.well-known/smart-configuration
+    status: 200
+    file: null
+    note: byte-identical to the classic.carefluence.com document already saved
+  - path: /metadata
+    status: 404
+    file: null
+findings:
+- No security.txt is served on any Carefluence host (RFC 9116 absent).
+- No /.well-known/api-catalog, ai-plugin.json, agent-card.json or agent.json on any host.
+- >-
+  docs.carefluence.com is a dangling custom hostname: it CNAMEs to
+  ingress-swaggerhub.com and the edge answers Cloudflare error 1001 over HTTP
+  and fails the TLS handshake over HTTPS. Nothing is served there.

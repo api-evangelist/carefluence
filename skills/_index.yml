@@ -1,0 +1,35 @@
+generated: '2026-09-02'
+method: generated
+source: >-
+  Authored from artifacts harvested in this repo: the live CapabilityStatement
+  (fhir/carefluence-openapi-r4-capabilitystatement.json), the live OpenID and
+  SMART discovery documents (well-known/), and the provider's published Postman
+  collection (postman/carefluence-openapi-r4-collection.json). No operation,
+  path, search parameter or code below is invented.
+name: Carefluence agent skills
+description: >-
+  Packaged operating instructions for the two flows that matter on the
+  Carefluence Open API R4 surface: getting a SMART on FHIR token, and pulling a
+  USCDI patient record. There is no OpenAPI document to ground operationIds in,
+  so operations are named by their published HTTP method and path.
+grounding:
+  openapi_present: false
+  grounded_in:
+  - fhir/carefluence-openapi-r4-capabilitystatement.json
+  - postman/carefluence-openapi-r4-collection.json
+  - well-known/carefluence-openid-configuration.json
+  - well-known/carefluence-smart-configuration.json
+provider_published_skills:
+  found: false
+  probed:
+  - url: https://carefluence.com/llms.txt
+    status: 404
+  - url: https://github.com/carefluence
+    status: 404
+skills:
+- file: skills/carefluence-smart-app-authorization.md
+  name: carefluence-smart-app-authorization
+  summary: Obtain and validate a SMART on FHIR bearer token from core.carefluence.com.
+- file: skills/carefluence-uscdi-patient-record-retrieval.md
+  name: carefluence-uscdi-patient-record-retrieval
+  summary: Find a patient and walk their USCDI compartment on the FHIR R4 server, paging Bundles correctly.

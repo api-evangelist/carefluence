@@ -1,0 +1,126 @@
+generated: '2026-09-02'
+method: searched
+source: >-
+  https://carefluence.com/onc-certification/, https://carefluence.com/our-excellence/,
+  https://carefluence.com/real-world-testing-plan-2025/, https://carefluence.com/technical-documents/,
+  https://api.carefluence.com/, and https://classic.carefluence.com/r4/metadata
+name: Carefluence Open API lifecycle
+description: >-
+  Carefluence versions its API by FHIR release, not by date or header. The
+  current line is Open API R4 (FHIR 4.0.1), served under a /r4 path segment;
+  the superseded line is Open API Version 1.0 (DSTU2-era), whose documentation
+  page is still live.
+versioning:
+  scheme: path-segment, keyed to the FHIR release
+  current: R4
+  current_path: /r4
+  current_fhir_version: 4.0.1
+  evidence: >-
+    Service base https://classic.carefluence.com/r4/ is what the server's own
+    CapabilityStatement declares as implementation.url.
+  history:
+  - version: Open API Version 1.0
+    fhir_version: DSTU2
+    documentation: https://carefluence.com/technical-documents/
+    terms_last_updated: '2016-05-13'
+    status: superseded
+    note: >-
+      Page is still served and still says "This document discusses Carefluence
+      OpenAPI Version 1.0"; it is not marked deprecated or dated as historical.
+  - version: Open API R4
+    fhir_version: 4.0.1
+    documentation: https://api.carefluence.com/
+    terms_last_updated: '2022-05-05'
+    status: current
+    certified: '2022-06-29'
+  milestones:
+  - date: '2013-06'
+    event: Health Hub launched for hospitals
+  - date: '2013/2014'
+    event: Participant in the Argonaut Project
+  - date: '2014-12'
+    event: Adopts FHIR
+  - date: '2015-09'
+    event: Extends FHIR to DSTU2 and SMART on FHIR applications
+  - date: '2016-07'
+    event: First FHIR-based Open API product to achieve ONC 2015 Edition certification
+  - date: '2018-09'
+    event: First large specialty (oncology) EHR certified with Carefluence and CDS Hooks
+  - date: '2019-07'
+    event: Extends FHIR support to R4
+  - date: '2022-06'
+    event: Certified under the Cures Act Update (CHPL 15.04.04.2657.Care.R4.01.0.220629)
+  - date: '2024-02'
+    event: Launches FHIRops Async API for asynchronous exchange of large data sets
+  source: https://carefluence.com/our-excellence/
+deprecation:
+  policy_published: false
+  sunset_header: not documented
+  deprecation_header: not documented
+  rfc8594: false
+  deprecated_operations: []
+  note: >-
+    No deprecation or sunset policy is published, and the CapabilityStatement
+    marks nothing deprecated. The DSTU2-era Version 1.0 documentation is still
+    served with no end-of-life notice, which is the concrete gap here.
+status_page:
+  published: false
+  probed:
+  - url: https://carefluence.com/status/
+    status: 404
+  note: >-
+    No status page, no uptime history and no incident feed on any Carefluence
+    host. status.carefluence.com does not resolve.
+sla:
+  published: false
+  note: >-
+    No SLA document is public. The ONC cost-considerations disclosure describes
+    licence, SaaS and per-transaction commercial models but states no
+    availability or support commitment.
+support:
+  channels:
+  - type: contact-form
+    url: https://carefluence.com/reach-us/
+  - type: email
+    value: info@carefluence.com
+    source: https://carefluence.com/openapi-terms-conditions/
+  - type: scheduling
+    url: https://calendly.com/carefluence_lloydwilliams
+    note: '"Book a Call" / "Book a Technical Demo" is the primary published route.'
+  - type: developer-portal
+    url: https://core.carefluence.com/cf.admin.core/Account/Login
+    note: Registered developers request tokens and app grants here; grants are approved by Carefluence administration.
+  authorized_representative:
+    name: Aditya Ayyagari
+    email: aditya.ayyagari@carefluence.com
+    phone: '+1 248-686-2600 x1003'
+    source: https://carefluence.com/real-world-testing-plan-2025/
+    note: >-
+      Published by the provider itself in the ONC Real World Testing attestation;
+      it is the ONC-facing contact of record, not a developer support desk.
+regulatory_reporting:
+  real_world_testing:
+    cadence: annual
+    plans:
+    - year: 2025
+      url: https://carefluence.com/real-world-testing-plan-2025/
+      plan_id: CF_RWT_2025
+      attested: '2025-10-28'
+    - year: 2024
+      url: https://carefluence.com/real-world-testing-plan-2024/
+    - year: 2023
+      url: https://carefluence.com/real-world-testing-plan-2023/
+    - year: 2022
+      url: https://carefluence.com/real-world-testing-plan/
+    note: >-
+      This is the closest thing Carefluence publishes to a dated change record.
+      It reports on continued conformance, not on API changes.
+changelog:
+  published: false
+  probed:
+  - url: https://carefluence.com/changelog/
+    status: 404
+  note: >-
+    No changelog or release notes. The News/Blog feed
+    (https://carefluence.com/feed/) is editorial, most recently 2025-05-31, and
+    does not record API changes.

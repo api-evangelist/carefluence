@@ -1,0 +1,123 @@
+generated: '2026-09-02'
+method: searched
+source: >-
+  https://api.carefluence.com/ — the public "Carefluence OpenAPI R4" Postman
+  documentation and collection (saved verbatim at
+  postman/carefluence-openapi-r4-collection.json), plus
+  https://core.carefluence.com/cf.admin.core/Account/RegisterDeveloper (HTTP 200)
+name: Carefluence Open API R4 developer test surface
+description: >-
+  Carefluence does not publish a keyless playground. What it does publish is a
+  complete, runnable Postman collection wired to a live FHIR server whose saved
+  example responses are Synthea-generated synthetic patients, plus a
+  self-service developer registration path. Access to the live server requires a
+  registered developer application whose grants Carefluence administration
+  approves.
+access:
+  self_service_signup: true
+  signup_url: https://core.carefluence.com/cf.admin.core/Account/RegisterDeveloper
+  login_url: https://core.carefluence.com/cf.admin.core/Account/Login
+  approval_required: true
+  approval_detail: >-
+    "Once login, developer is able to register App and get the grants approved
+    by the Carefluence Administration for token generation purposes."
+    (published collection overview)
+  keyless_access: false
+  anonymous_endpoints:
+  - url: https://classic.carefluence.com/r4/metadata
+    status: 200
+    note: CapabilityStatement is served without a token.
+  - url: https://classic.carefluence.com/r4/.well-known/smart-configuration
+    status: 200
+  - url: https://core.carefluence.com/cf.admin.core/.well-known/openid-configuration
+    status: 200
+test_vs_live:
+  separate_test_mode: not documented
+  key_prefixes: none
+  note: >-
+    No test-mode/live-mode key distinction is published. Tokens are ordinary
+    OAuth 2.0 bearer tokens from a single authorization server.
+servers:
+- host: https://classic.carefluence.com/r4/
+  role: >-
+    The server the published collection's example responses were captured
+    against, and the URL the live CapabilityStatement declares as its own
+    implementation.url.
+- host: https://fhir.carefluence.com/r4/
+  role: alias serving the identical CapabilityStatement
+- host: 'http://localhost:40927/'
+  role: >-
+    Appears in saved example response Bundle links throughout the collection.
+    This is the vendor's own local development server leaking into the
+    published examples, not a value a consumer can use.
+  status: leaked-internal
+- host: 'http://localhost:62749/'
+  role: >-
+    Hard-coded as the request URL of "MedicationRequest By Id" instead of the
+    {{BaseURL}} variable — a broken request in the published collection.
+  status: broken-request
+test_data:
+  generator: Synthea
+  generator_url: https://github.com/synthetichealth/synthea
+  evidence: >-
+    Saved example payloads carry Synthea extension URLs
+    (http://synthetichealth.github.io/synthea/disability-adjusted-life-years and
+    .../quality-adjusted-life-years), confirming synthetic rather than real
+    patient data in the published examples.
+  published_search_values:
+  - value: name=Chalmers
+    resource: Patient
+    note: The FHIR spec's own canonical example patient name; used across the Patient folder.
+  - value: identifier=12345
+    resource: Patient
+  - value: 'identifier=urn:oid:1.2.36.146.595.217.0.1|12345'
+    resource: Patient
+  - value: birthdate=1974-12-25
+    resource: Patient
+  - value: _id=4
+    resource: Patient
+  - value: name=WINCHESTER HOSPITAL
+    resource: Location
+  - value: status=active
+    resource: Location
+  loinc_codes_exercised:
+  - {code: '72166-2', meaning: Smoking status}
+  - {code: '77606-2', meaning: Weight-for-height percentile (pediatric)}
+  - {code: '59576-9', meaning: BMI-for-age percentile (pediatric)}
+  - {code: '8289-1', meaning: Head occipital-frontal circumference percentile}
+  - {code: '2708-6', meaning: Oxygen saturation (pulse oximetry)}
+  - {code: '8302-2', meaning: Body height}
+  - {code: '8310-5', meaning: Body temperature}
+  - {code: '85354-9', meaning: Blood pressure panel}
+  - {code: '29463-7', meaning: Body weight}
+  - {code: '8867-4', meaning: Heart rate}
+  - {code: '9279-1', meaning: Respiratory rate}
+  - {code: '38483-4', meaning: Creatinine (laboratory result example)}
+  - {code: '34117-2', meaning: 'History & Physical note (DocumentReference type)'}
+  - {code: '47039-3', meaning: 'Admission history and physical (DocumentReference category)'}
+  - {code: '11488-4', meaning: Consultation note}
+  - {code: '18842-5', meaning: Discharge summary}
+  - {code: '11506-3', meaning: Progress note}
+collection:
+  name: Carefluence OpenAPI R4
+  public_docs: https://api.carefluence.com/
+  saved_copy: postman/carefluence-openapi-r4-collection.json
+  schema: https://schema.getpostman.com/json/collection/v2.0.0/collection.json
+  top_level_folders: 7
+  folders_total: 38
+  requests: 104
+  variables_required: [BaseURL, OpenIDServer, PatientID, PatientID2, PatientID3, PatientID4, PatientID5,
+    AuthorizeUrl, TokenUrl, client_id_standalone, client_secret_standalone, scope_standalone, redirectUri_standalone]
+  variables_shipped_with_values: false
+  variables_note: >-
+    The collection's variable list is empty in the published document — every
+    {{BaseURL}}, {{PatientID*}} and OAuth variable must be supplied by the
+    developer. Nothing here is a usable credential.
+test_clocks: not supported
+fixtures_or_triggers: none published
+gaps:
+- No public sandbox tenant, demo patient portal, or keyless try-it console.
+- >-
+  The published collection carries no environment file, so a developer must
+  reconstruct 13 variables by hand before a single request runs.
+- Two requests point at localhost ports on the vendor's own machine.

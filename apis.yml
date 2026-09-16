@@ -35,6 +35,21 @@ tags:
 - Health IT
 - ONC Certified
 - USCDI
+- Authentication
+- Telehealth
+- Health Information Exchange
+tags_raw:
+- Company
+- Healthcare
+- Interoperability
+- FHIR
+- HL7
+- SMART on FHIR
+- Electronic Health Records
+- Clinical Data
+- Health IT
+- ONC Certified
+- USCDI
 - OAuth 2.0
 - Telehealth
 - Health Information Exchange
@@ -99,6 +114,12 @@ apis:
   humanURL: https://api.carefluence.com/
   baseURL: https://core.carefluence.com/cf.admin.core
   tags:
+  - Authentication
+  - OpenID Connect
+  - SMART on FHIR
+  - Identity
+  - Authorization
+  tags_raw:
   - OAuth 2.0
   - OpenID Connect
   - SMART on FHIR
